@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './screens/Landing.js'; 
 import HomeScreen from './screens/Home.js';
 import LoginScreen from './screens/Login.js';
+import SignUpScreen from './screens/SignUp.js';
+import ConfirmScreen from './screens/Confirm.js';
 
 
 const RootStack = createStackNavigator();
@@ -31,6 +33,16 @@ const App = () => {
                 <RootStack.Screen name = "Sign In"> 
                     {(props) => (
                         <LoginScreen {...props} LogIn = {setIsAuthenticated} />
+                    )}
+                </RootStack.Screen>
+                <RootStack.Screen name = "Sign Up"> 
+                    {(props) => (
+                        <SignUpScreen {...props} LogIn = {setIsAuthenticated} />
+                    )}
+                </RootStack.Screen>
+                <RootStack.Screen name = "Confirm Screen"> 
+                    {(props) => (
+                        <ConfirmScreen {...props} LogIn = {setIsAuthenticated} />
                     )}
                 </RootStack.Screen>
                 </>
