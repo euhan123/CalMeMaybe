@@ -29,7 +29,7 @@ const App = () => {
                 <RootStack.Screen name="Home" component={HomeScreen} />
             ) : (
                 <>
-                <RootStack.Screen name="Landing" component={LandingScreen} />
+                <RootStack.Screen name="Cal Me Maybe" component={LandingScreen} />
                 <RootStack.Screen name = "Sign In"> 
                     {(props) => (
                         <LoginScreen {...props} LogIn = {setIsAuthenticated} />

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 const LandingScreen = ({ navigation }) => {
     return (
         <View style = {styles.container}>
-            <Text> Landing Screen </Text>
+            <Text> Cal Me Maybe </Text>
             <Button title = "Go to Sign In" onPress = {() => navigation.navigate("Sign In")}/>
             <Button title = "Go to Sign Up" onPress = {() => navigation.navigate("Sign Up")}/>
         </View>
