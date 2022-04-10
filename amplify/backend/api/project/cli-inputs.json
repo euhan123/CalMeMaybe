@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "project",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "C:\\Users\\euhan\\Desktop\\project\\amplify\\backend\\api\\project\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authproject5ab6baae"
+    }
+  }
+}
