@@ -9,6 +9,7 @@ import HomeScreen from './screens/Home.js';
 import LoginScreen from './screens/Login.js';
 import SignUpScreen from './screens/SignUp.js';
 import ConfirmScreen from './screens/Confirm.js';
+import MapScreen from './screens/Map.js'
 
 
 const RootStack = createStackNavigator();
@@ -16,17 +17,18 @@ const RootStack = createStackNavigator();
 
 
 const App = () => {
-    const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+    const [isAuthenticated, setIsAuthenticated] = React.useState(true);
 
     // const handleSignUp = ({ navigation }) => {
     //     navigation.navigate(ConfirmScreen);
     // }
 
+
     return ( 
     <NavigationContainer> 
         <RootStack.Navigator>
             {isAuthenticated ? (
-                <RootStack.Screen name="Home" component={HomeScreen} />
+                <RootStack.Screen name="Map" component={MapScreen} />
             ) : (
                 <>
                 <RootStack.Screen name="Cal Me Maybe" component={LandingScreen} />
