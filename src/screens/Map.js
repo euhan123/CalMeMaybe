@@ -13,12 +13,12 @@ import { useEffect, useState } from "react";
 export default function MapScreen() {
   // Define position state: {latitude: number, longitude: number}
   const [position, setPosition] = React.useState({
-    latitude: 19.89,
-    longitude: 155.58,
+    latitude: 37.78,
+    longitude: -122.43,
   });
   const [destination, setDestination] = React.useState({
-    latitude: null,
-    longitude: null,
+    latitude: 37.78,
+    longitude: -122.43,
   });
 
   React.useEffect(() => {
@@ -66,8 +66,22 @@ export default function MapScreen() {
             longitude: e.nativeEvent.coordinate.longitude,
           });
         }}
-      />
-      <Button title="Start" onPress = {startWalk} style = {styles.button}/>
+      >
+        <Marker
+          coordinate = {{
+            latitude: destination.latitude,
+            longitude: destination.longitude,
+          }}
+          pinColor = "red"
+        >
+          <Callout>
+            <Text> Destination. </Text>
+          </Callout>
+        </Marker>
+      </MapView>
+      <View style = {styles.separator}>
+        <Button title="Start" onPress = {startWalk}/>
+      </View>
     </SafeAreaView>
   )
 }
@@ -83,11 +97,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  button: {
-    marginTop: 15,
-  },
   separator: {
+    position: "absolute",
     marginVertical: 8,
+    backgroundColor: "#fff",
+    bottom: 0,
   },
   map: {
     width: Dimensions.get('window').width,
