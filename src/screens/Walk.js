@@ -8,36 +8,21 @@ import * as TaskManager from 'expo-task-manager';
 import { ConsoleLogger, Reachability } from '@aws-amplify/core';
 
 import { useEffect, useState } from "react";
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
 
 
-export default function MapScreen({ navigation }) {
+export default function WalkScreen({route}) {
   // Define position state: {latitude: number, longitude: number}
+  const fields = route.params.paramKey;
   const [position, setPosition] = React.useState({
-    latitude: 37.78,
-    longitude: -122.43,
+    latitude: fields.positionLatitude,
+    longitude: fields.positionLongitude,
   });
-  const [destination, setDestination] = React.useState({
-    latitude: 37.78,
-    longitude: -122.43,
-  });
+  const [timerCount, setTimer] = React.useState(fields.time*60);
 
-  const fields = {
-    positionLatitude: 37.78,
-    positionLongitude: -122.43,
-    destinationLatitude: 37.78,
-    destinationLongitude: -122.43,
-}
 
   React.useEffect(() => {
-    (async () => {
-      let {status} = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied.")
-        return;
-      }
 
+    (async () => {
       let location = await Location.getCurrentPositionAsync({});
       setPosition({
         latitude: location.coords.latitude,
@@ -46,16 +31,17 @@ export default function MapScreen({ navigation }) {
     })();
   }, []);
 
-  async function startWalk() {
-    console.log(destination);
-    fields.destinationLatitude = destination.latitude;
-    fields.destinationLongitude = destination.longitude;
-    fields.positionLatitude = position.latitude;
-    fields.positionLongitude = position.longitude;
-    navigation.navigate('Time Screen', {
-        paramKey: fields,
-    })
-  }
+  React.useEffect(() => {
+      
+    const interval = setInterval(() => {
+        let time = timerCount;
+        if (time > 0){
+            setTimer(time - 1);
+        }
+      }, 1000);
+      
+    return () => clearInterval(interval);
+  }, [timerCount])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -76,17 +62,11 @@ export default function MapScreen({ navigation }) {
             longitude: e.nativeEvent.coordinate.longitude,
           });
         }}
-        onPress = {(e) => {
-          setDestination({
-            latitude: e.nativeEvent.coordinate.latitude,
-            longitude: e.nativeEvent.coordinate.longitude,
-          });
-        }}
       >
         <Marker
           coordinate = {{
-            latitude: destination.latitude,
-            longitude: destination.longitude,
+            latitude: fields.destinationLatitude,
+            longitude: fields.destinationLongitude,
           }}
           pinColor = "red"
         >
@@ -96,7 +76,7 @@ export default function MapScreen({ navigation }) {
         </Marker>
       </MapView>
       <View style = {styles.separator}>
-        <Button title="Start" onPress = {startWalk}/>
+          <Text style = {styles.time}>{Math.floor(timerCount/60)} : {("0" + timerCount % 60).slice(-2)}</Text>
       </View>
     </SafeAreaView>
   )
@@ -116,8 +96,12 @@ const styles = StyleSheet.create({
   separator: {
     position: "absolute",
     marginVertical: 8,
-    backgroundColor: "#fff",
     bottom: 0,
+  },
+  time: {
+      color: "#000",
+      textAlign: 'center',
+      fontSize: 30,
   },
   map: {
     width: Dimensions.get('window').width,
