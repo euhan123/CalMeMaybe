@@ -16,13 +16,26 @@ import ConfirmScreen from './screens/Confirm.js';
 import MapScreen from './screens/Map.js'
 import WalkScreen from './screens/Walk.js'
 import TimeScreen from './screens/Time.js';
+import Friend from './screens/Friends.js';
+import Profile from './screens/Profile.js';
 
 const RootStack = createStackNavigator();
 
 const Drawer = createDrawerNavigator();
 
 const App = () => {
-    const [isAuthenticated, setIsAuthenticated] = React.useState(true);
+    
+    const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+    
+    const [email, onChangeEmail] = React.useState("");
+    const [password, onChangePass] = React.useState("");
+
+    const fields = {
+        Email: email,
+        Password: password,
+        ChangeEmail: onChangeEmail,
+        ChangePass: onChangePass,
+    }
 
     // const handleSignUp = ({ navigation }) => {
     //     navigation.navigate(ConfirmScreen);
@@ -39,6 +52,12 @@ const App = () => {
             <Drawer.Navigator>
                 <Drawer.Screen name = "Home" component = {HomeScreen} options = {{ headerShown: false }} />
                 <Drawer.Screen name = "Map" component = {MapScreen} options = {{ headerShown: false }}/>
+                <Drawer.Screen name = "Profile" options = {{ headerShown: false }}>
+                            {(props) => (
+                                <Profile {...props} vars = {fields} />
+                            )}
+                </Drawer.Screen> 
+                <Drawer.Screen name = "Add Friends" component = {Friend} options = {{ headerShown: false }} vars = {fields}/>
             </Drawer.Navigator>
         );
     }; 
@@ -71,20 +90,26 @@ const App = () => {
                 </>
             ) : (
                 <>
-                <RootStack.Screen name="Cal Me Maybe" component={LandingScreen} />
-                <RootStack.Screen name = "Sign In"> 
+                <RootStack.Screen 
+                    name = "Cal Me Maybe" 
+                    component = {LandingScreen} 
+                    options = {{
+                        animationTypeForReplace: 'pop'
+                    }}
+                />
+                <RootStack.Screen name = "Sign In">
                     {(props) => (
-                        <LoginScreen {...props} LogIn = {setIsAuthenticated} />
+                        <LoginScreen {...props} LogIn = { setIsAuthenticated } params = {fields} />
+                    )}
+                </RootStack.Screen> 
+                <RootStack.Screen name = "Sign Up">
+                    {(props) => (
+                        <SignUpScreen {...props} LogIn = { setIsAuthenticated } params = {fields} />
                     )}
                 </RootStack.Screen>
-                <RootStack.Screen name = "Sign Up"> 
+                <RootStack.Screen name = "Confirm Screen">
                     {(props) => (
-                        <SignUpScreen {...props} LogIn = {setIsAuthenticated} />
-                    )}
-                </RootStack.Screen>
-                <RootStack.Screen name = "Confirm Screen"> 
-                    {(props) => (
-                        <ConfirmScreen {...props} LogIn = {setIsAuthenticated} />
+                        <ConfirmScreen {...props} LogIn = { setIsAuthenticated } />
                     )}
                 </RootStack.Screen>
                 </>

@@ -5,9 +5,12 @@ import * as queries from "../graphql/queries";
 import * as mutations from "../graphql/mutations";
 import * as subscriptions from "../graphql/subscriptions";
 
+
 import Amplify, { Auth } from "aws-amplify";
 import awsmobile from '../aws-exports';
 import { withAuthenticator } from 'aws-amplify-react-native';
+import { ConsoleLogger } from '@aws-amplify/core';
+
 
 Amplify.configure({
     ...awsmobile,
@@ -17,35 +20,64 @@ Amplify.configure({
 });
 
 class Friend extends React.Component {
-    state = {}
+    state = { friends: [], input: "", nickname: "", valid: [], pass: false, userPresent: false}
+
+    verifyID = async(userInput) => {
+        for(let i = 0; i < this.state.valid.length; i += 1){
+            console.log(userInput, this.state.valid[i].name)
+            if (userInput === this.state.valid[i].name) {
+                this.setState({pass: true})
+            }
+        }
+        console.log(this.state.pass)
+    }
 
     async componentDidMount() {
-        //FIX THIS SECTION
-        const selfData = await API.graphql(graphqlOperation(queries.listFriends))
+        const response = await Auth.currentUserInfo()
+        const userId = response.username
+        console.log(userId)
+        const selfData = await API.graphql(graphqlOperation(queries.listFriends, { filter: {selfPostsId: {eq: userId}} }))
+        console.log("componentDidMount")
+        const allData = await API.graphql(graphqlOperation(queries.listSelves))
+        this.setState({ friends: selfData.data.listFriends.items, valid: allData.data.listSelves.items })
+        console.log(this.state.valid)
     }
 
     getFriendsList = async () => {
         try {
-            //FIX THIS SECTION
             const response = await API.graphql(graphqlOperation(queries.listFriends))
+            this.setState({ friends: response.data.listFriends.items })
         } catch (err) {
             console.error(err);
         }
     }
 
     addFriend = async () => {
-        try {
-            const response = await Auth.currentUserInfo()
-            const userId = response.username //gets the userID of the current app user
-            await API.graphql(graphqlOperation(mutations.createFriend, { input: {} }))
-        } catch (err) {
-            console.error(err);
+        await this.verifyID(this.state.input)
+        if (this.state.pass) {
+            try {
+                const response = await Auth.currentUserInfo()
+                const userId = response.username
+                console.log(this.state.input, this.state.nickname, userId)
+                await API.graphql(graphqlOperation(mutations.createFriend, 
+                    { input: {username: this.state.input, nickname: this.state.nickname, selfPostsId: userId}}))
+                console.log("passed")
+                this.setState({ input: "", nickname: "", pass: false})
+                this.getFriendsList()
+            } catch (err) {
+                console.error(err);
+            }
+        } else {
+            console.log("ID does not exist!")
+
         }
+        
     }
 
     deleteFriend = async (id) => {
         try {
             await API.graphql(graphqlOperation(mutations.deleteFriend, { input: { id: id} }))
+            this.getFriendsList()
         } catch (err) {
             console.error(err);
         }
@@ -73,8 +105,16 @@ class Friend extends React.Component {
                     <Text style = {styles.heading}>List of Friends:</Text>
                 </Text>
                 <FlatList
-                    data={}
+                    data={this.state.friends}
                     renderItem={({ item }) => (
+                        <View>
+                            <Text style={styles.item}>
+                                <Text style = {{fontWeight: "bold"}}>Name: </Text>
+                                <Text>{item.nickname}    </Text>
+                            </Text>
+                            <Button title="Delete Friend" color="#ffa500" onPress={() => this.deleteFriend(item.id)} />
+                        </View>
+
                     )}
                 />
             </View>
@@ -94,7 +134,6 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 18,
         height: 44,
-        flexWrap: true,
     },
     input: {
         height: 40,

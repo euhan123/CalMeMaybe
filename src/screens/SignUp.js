@@ -1,44 +1,51 @@
 import React from 'react';
 import { SafeAreaView, TextInput, Text, View, StyleSheet, Button } from 'react-native';
-//import { showMessage, FlashMessage } from "react-native-flash-message";
 import { Auth } from "aws-amplify";
 import { NavigationContainer } from '@react-navigation/native';
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create ({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+        //backgroundColor: 
     },
     input: {
         height: 40,
-        margin: 10,
-        borderWidth: 1,
+        margin: 5,
+        borderWidth: 2,
+        alignSelf: 'stretch',
         padding: 10,
+        flexWrap: 'wrap',
     },
-
+    text: {
+        fontSize: 30, 
+        fontWeight: 'bold', 
+        alignSelf: 'center',
+    },
 });
 
-const SignUpScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation, params }) => {
     const [email, onChangeEmail] = React.useState("");
-    const [password, onChangePassword] = React.useState("");
+    const [password, onChangePass] = React.useState("");
     const [confirmPass, onChangeConfirm] = React.useState("");
 
     const fields = {
-        email: "",
-        password: "",
+        email: params.Email,
+        password: params.Password,
     }
+    
 
     function validateForm() {
         return (
-            email.length > 0 &&
-            password.length > 0 &&
-            password == confirmPass
-        )
+          email.length > 0 &&
+          password.length > 0 &&
+          password === confirmPass
+        );
     }
 
     async function handleSubmit() {
-        if(validateForm) {
+        if(validateForm){
             try {
                 await Auth.signUp({
                     username: email,
@@ -53,39 +60,41 @@ const SignUpScreen = ({ navigation }) => {
                     paramKey: fields,
                 });
             } catch (e) {
-                
+                alert("Error!");
             }
-        } 
+        }        
     }
 
     return (
         <SafeAreaView style = {styles.container}>
-            <Text style = {{ fontSize: 30, fontWeight: 'bold'}}> Sign Up </Text>
+            <Text style = {styles.text}> Sign Up </Text>
             <TextInput
                 style = {styles.input}
                 onChangeText = {onChangeEmail}
                 value = {email}
-                placeholder = "Enter your email"
+                placeholder = "Enter your email."
                 keyboardType = "email-address"
             />
-            <TextInput
+            <TextInput 
                 style = {styles.input}
-                onChangeText = {onChangePassword}
+                onChangeText = {onChangePass}
                 value = {password}
-                placeholder = "Enter your password"
+                placeholder = "Enter your password."
+                secureTextEntry
             />
-            <TextInput
+            <TextInput 
                 style = {styles.input}
                 onChangeText = {onChangeConfirm}
                 value = {confirmPass}
-                placeholder = "Enter your password again"
+                placeholder = "Enter your password AGAIN."
+                secureTextEntry
             />
             <Button 
                 title = "Sign Up" onPress = {handleSubmit}
             />
         </SafeAreaView>
 
-    )
+    );
 }
 
-export default SignUpScreen;
+export default SignUpScreen; 

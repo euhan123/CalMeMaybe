@@ -16,13 +16,11 @@ const styles = StyleSheet.create({
     },
 });
 
-const LoginScreen = ({ LogIn, navigation}) => {
-    const [email, onChangeEmail] = React.useState("");
-    const [password, onChangePass] = React.useState("");
+const LoginScreen = ({ LogIn, params}) => {
 
     async function handleSubmit() {    
         try {
-          await Auth.signIn(email, password);
+          await Auth.signIn(params.Email, params.Password);
           LogIn(true);
         } catch (e) {
         }
@@ -33,17 +31,17 @@ const LoginScreen = ({ LogIn, navigation}) => {
             <Text> Sign In </Text>
             <TextInput
                 style = {styles.input}
-                onChangeText = {onChangeEmail}
-                value = {email}
+                onChangeText = {params.ChangeEmail}
+                value = {params.Email}
                 placeholder = "Enter your email."
                 keyboardType = "email-address"
             />
             <TextInput 
                 style = {styles.input}
-                onChangeText = {onChangePass}
-                value = {password}
-                secureTextEntry  //blurs ur password input
+                onChangeText = {params.ChangePass}
+                value = {params.Password}
                 placeholder = "Enter your password."
+                secureTextEntry
             />
             <Button 
                 title = "Sign In" onPress = {handleSubmit}
