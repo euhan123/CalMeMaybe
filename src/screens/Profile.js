@@ -39,13 +39,11 @@ function Profile ({vars}) {
 
     return (
         <View style={styles.container}>
-            <Text style = {styles.item}>
-                <Text style = {styles.heading}>Profile Information{"\n"}</Text>
-                <Text style = {{fontWeight: "bold"}}>ID: </Text>
-                <Text>{state.userId}{"\n"}</Text>
-                <Text style = {{fontWeight: "bold"}}>Email: </Text>
-                <Text>{state.userEmail}{"\n"}</Text>
-            </Text>
+            <Text style = {styles.heading}>Profile Information{"\n"}</Text>
+            <Text style = {styles.text}>ID: </Text>
+            <Text style = {styles.item}>{state.userId}{"\n"}</Text>
+            <Text style = {styles.text}>Email: </Text>
+            <Text style = {styles.item}>{state.userEmail}{"\n"}</Text>
         </View>
     )
 
@@ -64,13 +62,20 @@ const styles = StyleSheet.create({
         height: 44,
         alignItems: 'center',
     },
+    text: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+        alignItems: 'center',
+        fontWeight: 'bold',
+    },
     input: {
         height: 40,
         borderWidth:1,
         padding: 10,
     },
     heading: {
-        fontsize: 30,
+        fontSize: 30,
         height: 66,
         fontWeight: "bold",
     },
