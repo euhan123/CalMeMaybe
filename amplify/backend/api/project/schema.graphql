@@ -25,5 +25,6 @@ type Friend
   {
     id: ID!
     username: String!
+    email: String!
     nickname: String
   }

@@ -9,16 +9,32 @@ import { ConsoleLogger, Reachability } from '@aws-amplify/core';
 
 import { useEffect, useState } from "react";
 
+import { API, graphqlOperation } from 'aws-amplify';
+import * as queries from "../graphql/queries";
+import * as mutations from "../graphql/mutations";
+import * as subscriptions from "../graphql/subscriptions";
 
-export default function WalkScreen({route}) {
+import Amplify, { Auth } from "aws-amplify";
+import awsmobile from '../aws-exports';
+import { withAuthenticator } from 'aws-amplify-react-native';
+
+
+Amplify.configure({
+    ...awsmobile,
+    Analytics: {
+      disabled: true,
+    },
+});
+
+function WalkScreen({navigation, route}) {
   // Define position state: {latitude: number, longitude: number}
+  const distance = 100;
   const fields = route.params.paramKey;
   const [position, setPosition] = React.useState({
     latitude: fields.positionLatitude,
     longitude: fields.positionLongitude,
   });
   const [timerCount, setTimer] = React.useState(fields.time*60);
-
 
   React.useEffect(() => {
 
@@ -28,6 +44,13 @@ export default function WalkScreen({route}) {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
+      let latDiff = location.coords.latitude - fields.destinationLatitude;
+      let longDiff = location.coords.longitude - fields.destinationLongitude;
+      let squared = Math.pow(latDiff * latDiff + longDiff * longDiff, 0.5)
+      let distAway = squared * 10000 * 3280.4 * (1/90);
+      if (distAway <= distance) {
+        navigation.navigate("Completed Screen");
+      }
     })();
   }, []);
 
@@ -36,7 +59,9 @@ export default function WalkScreen({route}) {
     const interval = setInterval(() => {
         let time = timerCount;
         if (time > 0){
-            setTimer(time - 1);
+          setTimer(time - 1);
+        } else {
+          
         }
       }, 1000);
       
@@ -81,6 +106,8 @@ export default function WalkScreen({route}) {
     </SafeAreaView>
   )
 }
+
+export default withAuthenticator(WalkScreen, { includeGreeetings: false})
 
 const styles = StyleSheet.create({
   container: {

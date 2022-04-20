@@ -20,12 +20,12 @@ Amplify.configure({
 });
 
 class Friend extends React.Component {
-    state = { friends: [], input: "", nickname: "", valid: [], pass: false, userPresent: false}
+    state = { friends: [], input: "", nickname: "", valid: [], pass: false, userPresent: false, email: ""}
 
     verifyID = async(userInput) => {
         for(let i = 0; i < this.state.valid.length; i += 1){
             console.log(userInput, this.state.valid[i].name)
-            if (userInput === this.state.valid[i].name) {
+            if (userInput == this.state.valid[i].name) {
                 this.setState({pass: true})
             }
         }
@@ -60,9 +60,9 @@ class Friend extends React.Component {
                 const userId = response.username
                 console.log(this.state.input, this.state.nickname, userId)
                 await API.graphql(graphqlOperation(mutations.createFriend, 
-                    { input: {username: this.state.input, nickname: this.state.nickname, selfPostsId: userId}}))
+                    { input: {username: this.state.input, nickname: this.state.nickname, email: this.state.email, selfPostsId: userId}}))
                 console.log("passed")
-                this.setState({ input: "", nickname: "", pass: false})
+                this.setState({ input: "", nickname: "", email: "", pass: false})
                 this.getFriendsList()
             } catch (err) {
                 console.error(err);
@@ -93,6 +93,12 @@ class Friend extends React.Component {
                     value={this.state.input}
                     placeholder="Type your friend's id!"
                     onChangeText={(text) => this.setState({ input: text })}
+                />
+                <TextInput
+                    style={styles.input}
+                    value={this.state.email}
+                    placeholder="Type your friend's email!"
+                    onChangeText={(text) => this.setState({ email: text })}
                 />
                 <TextInput
                     style = {styles.input}

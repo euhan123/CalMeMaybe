@@ -10,6 +10,7 @@ export const getSelf = /* GraphQL */ `
         items {
           id
           username
+          email
           nickname
           createdAt
           updatedAt
@@ -47,6 +48,7 @@ export const getFriend = /* GraphQL */ `
     getFriend(id: $id) {
       id
       username
+      email
       nickname
       createdAt
       updatedAt
@@ -64,6 +66,7 @@ export const listFriends = /* GraphQL */ `
       items {
         id
         username
+        email
         nickname
         createdAt
         updatedAt

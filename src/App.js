@@ -18,6 +18,7 @@ import WalkScreen from './screens/Walk.js'
 import TimeScreen from './screens/Time.js';
 import Friend from './screens/Friends.js';
 import Profile from './screens/Profile.js';
+import CompletedScreen from './screens/Completed.js';
 
 const RootStack = createStackNavigator();
 
@@ -87,6 +88,7 @@ const App = () => {
                 />
                 <RootStack.Screen name = "Time Screen" component = {TimeScreen} />
                 <RootStack.Screen name = "Walk Screen" component = {WalkScreen} />
+                <RootStack.Screen name = "Completed Screen" component = {CompletedScreen} />
                 </>
             ) : (
                 <>

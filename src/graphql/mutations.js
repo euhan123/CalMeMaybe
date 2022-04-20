@@ -13,6 +13,7 @@ export const createSelf = /* GraphQL */ `
         items {
           id
           username
+          email
           nickname
           createdAt
           updatedAt
@@ -37,6 +38,7 @@ export const updateSelf = /* GraphQL */ `
         items {
           id
           username
+          email
           nickname
           createdAt
           updatedAt
@@ -61,6 +63,7 @@ export const deleteSelf = /* GraphQL */ `
         items {
           id
           username
+          email
           nickname
           createdAt
           updatedAt
@@ -81,6 +84,7 @@ export const createFriend = /* GraphQL */ `
     createFriend(input: $input, condition: $condition) {
       id
       username
+      email
       nickname
       createdAt
       updatedAt
@@ -96,6 +100,7 @@ export const updateFriend = /* GraphQL */ `
     updateFriend(input: $input, condition: $condition) {
       id
       username
+      email
       nickname
       createdAt
       updatedAt
@@ -111,6 +116,7 @@ export const deleteFriend = /* GraphQL */ `
     deleteFriend(input: $input, condition: $condition) {
       id
       username
+      email
       nickname
       createdAt
       updatedAt
