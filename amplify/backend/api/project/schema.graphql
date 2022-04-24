@@ -13,6 +13,7 @@ type Self
     id: ID!
     name: String!
     posts: [Friend] @hasMany
+    alerts: [Alerts] @hasMany
   }
 
 type Friend 
@@ -27,4 +28,18 @@ type Friend
     username: String!
     email: String!
     nickname: String
+  }
+
+type Alerts 
+  @model 
+  @auth(
+    rules: [
+      { allow: private, provider: userPools, operations: [create, update, read, delete]}
+    ]
+  )
+  {
+    id: ID!
+    from: String!
+    to: String!
+    message: String
   }

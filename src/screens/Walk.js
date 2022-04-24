@@ -34,6 +34,7 @@ function WalkScreen({navigation, route}) {
     latitude: fields.positionLatitude,
     longitude: fields.positionLongitude,
   });
+  const minutes = fields.time;
   const [timerCount, setTimer] = React.useState(fields.time*60);
 
   React.useEffect(() => {
@@ -54,14 +55,29 @@ function WalkScreen({navigation, route}) {
     })();
   }, []);
 
+  async function failed() {
+    const response = await Auth.currentUserInfo();
+    const userId = response.username;
+    const selfData = await API.graphql(graphqlOperation(queries.listFriends, { filter: {selfPostsId: {eq: userId}} }));
+    const friends = selfData.data.listFriends.items;
+    const msg = `ALERT: ${userId} failed to reach their destination in ${minutes} minutes.`;
+    console.log(friends.length)
+    for (let i = 0; i < friends.length; i++ ) {
+      await API.graphql(graphqlOperation(mutations.createAlerts, 
+      { input: {from: userId, to: friends[i].username, message: msg}}))
+    }
+    navigation.navigate("Home");
+  }
+
   React.useEffect(() => {
       
     const interval = setInterval(() => {
         let time = timerCount;
         if (time > 0){
           setTimer(time - 1);
-        } else {
-          
+        } else if (time == 0) {
+          failed();
+          setTimer(time - 1);
         }
       }, 1000);
       

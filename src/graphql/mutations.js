@@ -21,6 +21,18 @@ export const createSelf = /* GraphQL */ `
         }
         nextToken
       }
+      alerts {
+        items {
+          id
+          from
+          to
+          message
+          createdAt
+          updatedAt
+          selfAlertsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -46,6 +58,18 @@ export const updateSelf = /* GraphQL */ `
         }
         nextToken
       }
+      alerts {
+        items {
+          id
+          from
+          to
+          message
+          createdAt
+          updatedAt
+          selfAlertsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -68,6 +92,18 @@ export const deleteSelf = /* GraphQL */ `
           createdAt
           updatedAt
           selfPostsId
+        }
+        nextToken
+      }
+      alerts {
+        items {
+          id
+          from
+          to
+          message
+          createdAt
+          updatedAt
+          selfAlertsId
         }
         nextToken
       }
@@ -121,6 +157,54 @@ export const deleteFriend = /* GraphQL */ `
       createdAt
       updatedAt
       selfPostsId
+    }
+  }
+`;
+export const createAlerts = /* GraphQL */ `
+  mutation CreateAlerts(
+    $input: CreateAlertsInput!
+    $condition: ModelAlertsConditionInput
+  ) {
+    createAlerts(input: $input, condition: $condition) {
+      id
+      from
+      to
+      message
+      createdAt
+      updatedAt
+      selfAlertsId
+    }
+  }
+`;
+export const updateAlerts = /* GraphQL */ `
+  mutation UpdateAlerts(
+    $input: UpdateAlertsInput!
+    $condition: ModelAlertsConditionInput
+  ) {
+    updateAlerts(input: $input, condition: $condition) {
+      id
+      from
+      to
+      message
+      createdAt
+      updatedAt
+      selfAlertsId
+    }
+  }
+`;
+export const deleteAlerts = /* GraphQL */ `
+  mutation DeleteAlerts(
+    $input: DeleteAlertsInput!
+    $condition: ModelAlertsConditionInput
+  ) {
+    deleteAlerts(input: $input, condition: $condition) {
+      id
+      from
+      to
+      message
+      createdAt
+      updatedAt
+      selfAlertsId
     }
   }
 `;

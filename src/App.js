@@ -19,6 +19,7 @@ import TimeScreen from './screens/Time.js';
 import Friend from './screens/Friends.js';
 import Profile from './screens/Profile.js';
 import CompletedScreen from './screens/Completed.js';
+import Alerts from './screens/Alerts.js';
 
 const RootStack = createStackNavigator();
 
@@ -52,13 +53,14 @@ const App = () => {
         return (
             <Drawer.Navigator>
                 <Drawer.Screen name = "Home" component = {HomeScreen} options = {{ headerShown: false }} />
-                <Drawer.Screen name = "Map" component = {MapScreen} options = {{ headerShown: false }}/>
                 <Drawer.Screen name = "Profile" options = {{ headerShown: false }}>
                             {(props) => (
                                 <Profile {...props} vars = {fields} />
                             )}
                 </Drawer.Screen> 
                 <Drawer.Screen name = "Add Friends" component = {Friend} options = {{ headerShown: false }} vars = {fields}/>
+                <Drawer.Screen name = "Alerts" component = {Alerts} options = {{ headerShown: false }} />
+                <Drawer.Screen name = "Map" component = {MapScreen} options = {{ headerShown: false }}/>
             </Drawer.Navigator>
         );
     }; 

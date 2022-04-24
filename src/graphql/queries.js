@@ -18,6 +18,18 @@ export const getSelf = /* GraphQL */ `
         }
         nextToken
       }
+      alerts {
+        items {
+          id
+          from
+          to
+          message
+          createdAt
+          updatedAt
+          selfAlertsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -34,6 +46,9 @@ export const listSelves = /* GraphQL */ `
         id
         name
         posts {
+          nextToken
+        }
+        alerts {
           nextToken
         }
         createdAt
@@ -71,6 +86,39 @@ export const listFriends = /* GraphQL */ `
         createdAt
         updatedAt
         selfPostsId
+      }
+      nextToken
+    }
+  }
+`;
+export const getAlerts = /* GraphQL */ `
+  query GetAlerts($id: ID!) {
+    getAlerts(id: $id) {
+      id
+      from
+      to
+      message
+      createdAt
+      updatedAt
+      selfAlertsId
+    }
+  }
+`;
+export const listAlerts = /* GraphQL */ `
+  query ListAlerts(
+    $filter: ModelAlertsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAlerts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        from
+        to
+        message
+        createdAt
+        updatedAt
+        selfAlertsId
       }
       nextToken
     }

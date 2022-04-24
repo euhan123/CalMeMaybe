@@ -18,6 +18,18 @@ export const onCreateSelf = /* GraphQL */ `
         }
         nextToken
       }
+      alerts {
+        items {
+          id
+          from
+          to
+          message
+          createdAt
+          updatedAt
+          selfAlertsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -40,6 +52,18 @@ export const onUpdateSelf = /* GraphQL */ `
         }
         nextToken
       }
+      alerts {
+        items {
+          id
+          from
+          to
+          message
+          createdAt
+          updatedAt
+          selfAlertsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -59,6 +83,18 @@ export const onDeleteSelf = /* GraphQL */ `
           createdAt
           updatedAt
           selfPostsId
+        }
+        nextToken
+      }
+      alerts {
+        items {
+          id
+          from
+          to
+          message
+          createdAt
+          updatedAt
+          selfAlertsId
         }
         nextToken
       }
@@ -103,6 +139,45 @@ export const onDeleteFriend = /* GraphQL */ `
       createdAt
       updatedAt
       selfPostsId
+    }
+  }
+`;
+export const onCreateAlerts = /* GraphQL */ `
+  subscription OnCreateAlerts {
+    onCreateAlerts {
+      id
+      from
+      to
+      message
+      createdAt
+      updatedAt
+      selfAlertsId
+    }
+  }
+`;
+export const onUpdateAlerts = /* GraphQL */ `
+  subscription OnUpdateAlerts {
+    onUpdateAlerts {
+      id
+      from
+      to
+      message
+      createdAt
+      updatedAt
+      selfAlertsId
+    }
+  }
+`;
+export const onDeleteAlerts = /* GraphQL */ `
+  subscription OnDeleteAlerts {
+    onDeleteAlerts {
+      id
+      from
+      to
+      message
+      createdAt
+      updatedAt
+      selfAlertsId
     }
   }
 `;
