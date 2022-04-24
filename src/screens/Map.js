@@ -18,6 +18,7 @@ export default function MapScreen({ navigation }) {
     latitude: 37.78,
     longitude: -122.43,
   });
+
   const [destination, setDestination] = React.useState({
     latitude: 37.78,
     longitude: -122.43,
@@ -47,7 +48,7 @@ export default function MapScreen({ navigation }) {
   }, []);
 
   async function startWalk() {
-    console.log(destination);
+    //console.log(destination);
     fields.destinationLatitude = destination.latitude;
     fields.destinationLongitude = destination.longitude;
     fields.positionLatitude = position.latitude;

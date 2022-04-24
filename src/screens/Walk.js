@@ -60,13 +60,32 @@ function WalkScreen({navigation, route}) {
     const userId = response.username;
     const selfData = await API.graphql(graphqlOperation(queries.listFriends, { filter: {selfPostsId: {eq: userId}} }));
     const friends = selfData.data.listFriends.items;
-    const msg = `ALERT: ${userId} failed to reach their destination in ${minutes} minutes.`;
-    console.log(friends.length)
+    //console.log(friends.length)
     for (let i = 0; i < friends.length; i++ ) {
+      const FriendData = await API.graphql(graphqlOperation(queries.listFriends, { filter: {username: {eq: userId}, selfPostsId: {eq: friends[i].username}}}));
+      const name = FriendData.data.listFriends.items.nickname;
+      const msg = `ALERT: ${name} failed to reach their destination in ${minutes} minutes.`;
       await API.graphql(graphqlOperation(mutations.createAlerts, 
-      { input: {from: userId, to: friends[i].username, message: msg}}))
+      { input: {from: name, to: friends[i].username, message: msg}}))
     }
     navigation.navigate("Home");
+  }
+
+  async function check() {
+    let location = await Location.getCurrentPositionAsync({});
+    setPosition({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    });
+    let latDiff = location.coords.latitude - fields.destinationLatitude;
+    let longDiff = location.coords.longitude - fields.destinationLongitude;
+    let squared = Math.pow(latDiff * latDiff + longDiff * longDiff, 0.5)
+    let distAway = squared * 10000 * 3280.4 * (1/90);
+    if (distAway <= distance) {
+      navigation.navigate("Completed Screen");
+    } else {
+      failed();
+    }
   }
 
   React.useEffect(() => {
@@ -76,7 +95,7 @@ function WalkScreen({navigation, route}) {
         if (time > 0){
           setTimer(time - 1);
         } else if (time == 0) {
-          failed();
+          check();
           setTimer(time - 1);
         }
       }, 1000);

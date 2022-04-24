@@ -35,12 +35,12 @@ class Friend extends React.Component {
     async componentDidMount() {
         const response = await Auth.currentUserInfo()
         const userId = response.username
-        console.log(userId)
+        //console.log(userId)
         const selfData = await API.graphql(graphqlOperation(queries.listFriends, { filter: {selfPostsId: {eq: userId}} }))
-        console.log("componentDidMount")
+        //console.log("componentDidMount")
         const allData = await API.graphql(graphqlOperation(queries.listSelves))
         this.setState({ friends: selfData.data.listFriends.items, valid: allData.data.listSelves.items })
-        console.log(this.state.valid)
+        //console.log(this.state.valid)
     }
 
     getFriendsList = async () => {
@@ -58,10 +58,10 @@ class Friend extends React.Component {
             try {
                 const response = await Auth.currentUserInfo()
                 const userId = response.username
-                console.log(this.state.input, this.state.nickname, userId)
+                //console.log(this.state.input, this.state.nickname, userId)
                 await API.graphql(graphqlOperation(mutations.createFriend, 
                     { input: {username: this.state.input, nickname: this.state.nickname, email: this.state.email, selfPostsId: userId}}))
-                console.log("passed")
+                //console.log("passed")
                 this.setState({ input: "", nickname: "", email: "", pass: false})
                 this.getFriendsList()
             } catch (err) {
