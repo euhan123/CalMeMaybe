@@ -70,6 +70,7 @@ export default function MapScreen({ navigation }) {
             longitudeDelta: 0.0421
         }}
         showsUserLocation = {true}
+        showsCompass = {true}
         followsUserLocation = {true}
         onUserLocationChange = {(e) => {
           setPosition({

@@ -41,5 +41,6 @@ type Alerts
     id: ID!
     from: String!
     to: String!
+    nickname: String
     message: String
   }

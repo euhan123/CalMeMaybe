@@ -66,7 +66,7 @@ function WalkScreen({navigation, route}) {
       const name = FriendData.data.listFriends.items.nickname;
       const msg = `ALERT: ${name} failed to reach their destination in ${minutes} minutes.`;
       await API.graphql(graphqlOperation(mutations.createAlerts, 
-      { input: {from: name, to: friends[i].username, message: msg}}))
+      { input: {from: userId, to: friends[i].username, nickname: name, message: msg}}))
     }
     navigation.navigate("Home");
   }

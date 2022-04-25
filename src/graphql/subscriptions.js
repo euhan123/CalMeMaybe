@@ -23,6 +23,7 @@ export const onCreateSelf = /* GraphQL */ `
           id
           from
           to
+          nickname
           message
           createdAt
           updatedAt
@@ -57,6 +58,7 @@ export const onUpdateSelf = /* GraphQL */ `
           id
           from
           to
+          nickname
           message
           createdAt
           updatedAt
@@ -91,6 +93,7 @@ export const onDeleteSelf = /* GraphQL */ `
           id
           from
           to
+          nickname
           message
           createdAt
           updatedAt
@@ -148,6 +151,7 @@ export const onCreateAlerts = /* GraphQL */ `
       id
       from
       to
+      nickname
       message
       createdAt
       updatedAt
@@ -161,6 +165,7 @@ export const onUpdateAlerts = /* GraphQL */ `
       id
       from
       to
+      nickname
       message
       createdAt
       updatedAt
@@ -174,6 +179,7 @@ export const onDeleteAlerts = /* GraphQL */ `
       id
       from
       to
+      nickname
       message
       createdAt
       updatedAt

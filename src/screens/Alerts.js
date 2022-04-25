@@ -53,7 +53,7 @@ class Alerts extends React.Component {
                         <View style = {styles.container2}>
                             <Text style = {{textAlign: 'left'}}>
                                 <Text style = {{fontWeight: "bold", fontSize: 20}}> Name: </Text>
-                                <Text style = {styles.name}> {item.from} {'\n'} </Text>
+                                <Text style = {styles.name}> {item.nickname} {'\n'} </Text>
                                 <Text style = {{fontWeight: "bold", fontSize: 20, textAlign: 'left'}}> Time: </Text>
                                 <Text style = {styles.item}> {item.createdAt} {'\n'} </Text>
                                 <Text style = {{fontWeight: "bold", fontSize: 20}}> Message: {'\n'}</Text>

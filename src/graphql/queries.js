@@ -23,6 +23,7 @@ export const getSelf = /* GraphQL */ `
           id
           from
           to
+          nickname
           message
           createdAt
           updatedAt
@@ -97,6 +98,7 @@ export const getAlerts = /* GraphQL */ `
       id
       from
       to
+      nickname
       message
       createdAt
       updatedAt
@@ -115,6 +117,7 @@ export const listAlerts = /* GraphQL */ `
         id
         from
         to
+        nickname
         message
         createdAt
         updatedAt
