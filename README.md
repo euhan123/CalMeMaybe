@@ -30,5 +30,5 @@ cd myReactNativeProject
 expo start
 ```
 
-### Demo
+## Demo
 Watch a quick [demo](https://www.youtube.com/watch?v=PhwExPQ_Tks) of the app!!
